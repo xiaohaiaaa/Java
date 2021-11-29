@@ -21,7 +21,7 @@ public class MQOrderServiceImpl implements MQOrderService {
      * @param theOrder
      */
     @Override
-    @RabbitListener(queues = MyRabbitMQConfig.ORDER_QUEUE)
+    //@RabbitListener(queues = MyRabbitMQConfig.ORDER_QUEUE)
     public void creatOrder(TheOrder theOrder) {
         log.info("收到订单消息，订单用户为：{}，商品名称为：{}", theOrder.getOrderUser(), theOrder.getOrderName());
         //调用数据库创建订单信息

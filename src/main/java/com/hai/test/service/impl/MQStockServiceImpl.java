@@ -20,7 +20,7 @@ public class MQStockServiceImpl implements MQStockService {
      * @param stockName
      */
     @Override
-    @RabbitListener(queues = MyRabbitMQConfig.STORY_QUEUE)
+    //@RabbitListener(queues = MyRabbitMQConfig.STORY_QUEUE)
     public void decrByStockName(String stockName) {
         log.info("库存消息队列收到的消息商品信息是：{}", stockName);
         //调用数据库给对应商品库存减一
