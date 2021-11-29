@@ -1,22 +1,18 @@
 package com.hai.test.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
 import com.hai.test.service.TestService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 /**
  * @description 测试控制类
  * @author 13352
  */
 @RestController
+@RequestMapping("/test")
 public class TestController {
 
     @Autowired
@@ -26,7 +22,7 @@ public class TestController {
      * 测试线程池
      * @return
      */
-    @PostMapping("/testThreadFactory")
+    @PostMapping("/threadFactory")
     @ResponseBody
     public String myTestForThreadFactory() {
         testService.testService();
@@ -37,7 +33,7 @@ public class TestController {
      * 测试切面AOP
      * @return
      */
-    @PostMapping("/testSection")
+    @PostMapping("/section")
     @Section(gender = "boy", age = 17)
     @ResponseBody
     public String myTestForSection() {
@@ -45,18 +41,24 @@ public class TestController {
     }
 
     /**
-     * 测试Ehcache缓存
+     * 测试使用Ehcache缓存
+     * @param id
      * @return
      */
-    @PostMapping("/testEhcache")
+    @GetMapping("/add/ehcache")
     @ResponseBody
-    public City myTestForEhcache(Long id) {
+    public City myTestForEhcache(@RequestParam("id") Long id) {
         return testService.testEhcache(id);
     }
 
-    @PostMapping("/testClearEhcache")
+    /**
+     * 测试清除Ehcache缓存
+     * @param id
+     * @return
+     */
+    @GetMapping("/clear/ehcache")
     @ResponseBody
-    public String myTestForClearEhcache(Long id) {
+    public String myTestForClearEhcache(@RequestParam("id") Long id) {
         return testService.clearEhcache(id);
     }
 

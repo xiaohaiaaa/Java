@@ -1,18 +1,21 @@
 package com.hai.test.service.impl;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.hai.test.domain.City;
-import com.hai.test.mapper.CityMapper;
-import com.hai.test.service.TestService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.concurrent.*;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.concurrent.*;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.hai.test.domain.City;
+import com.hai.test.mapper.CityMapper;
+import com.hai.test.service.TestService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 13352
