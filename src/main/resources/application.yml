@@ -41,9 +41,11 @@ spring:
   #JPA配置
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
+  # 使用的环境配置
+  profiles:
+    active: dev
 #Mapper文件扫描配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
