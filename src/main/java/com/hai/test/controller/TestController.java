@@ -1,6 +1,9 @@
 package com.hai.test.controller;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
 import com.hai.test.common.Section;
@@ -63,34 +66,21 @@ public class TestController {
     }
 
     /**
-     * 面试编码题：倒序输出没有重复的元素
-     * @param args
+     * 测试多线程
      */
-    @PostMapping("/test")
-    @ResponseBody
-    public void main(String[] args) {
-        int[] array = {7, 8, 3, 1, 3, 2, 1, 8, 6};
-        int num1;
-        int num2;
-        StringBuffer numList1 = new StringBuffer();
-        for(int i=0; i<=array.length-1; i++) {
-            boolean isExsist = false;
-            for(int j=0; j<=array.length-1; j++) {
-                if(i == j) {
-                    continue;
-                }
-                num1 = array[i];
-                num2 = array[j];
-                if(num2 == num1) {
-                    isExsist = true;
-                    break;
-                }
-            }
-            if(!isExsist) {
-                numList1.append(array[i]);
-            }
-        }
-        numList1.reverse();
-        System.out.println(numList1);
+    @GetMapping("/thread/pool")
+    public void testExecutor() {
+        testService.testExecutor();
+    }
+
+    @Resource(name = "threadPoolTaskExecutor")
+    private ThreadPoolTaskExecutor executor;
+
+    /**
+     * 测试优雅关闭
+     */
+    @GetMapping("/grace/close")
+    public void graceClose() {
+        System.exit(0);
     }
 }

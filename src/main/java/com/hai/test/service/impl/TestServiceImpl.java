@@ -1,6 +1,7 @@
 package com.hai.test.service.impl;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
@@ -10,10 +11,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.hai.test.domain.City;
 import com.hai.test.mapper.CityMapper;
 import com.hai.test.service.TestService;
+import com.hai.test.util.ThreadPoolUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,15 +34,6 @@ public class TestServiceImpl implements TestService {
     //男性和女性
     private final String GENDER_MALE = "MALE";
     private final String GENDER_FEMALE = "FEMALE";
-
-    /**
-     * 自定义线程池
-     */
-    ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("test-pool-%d").build();
-
-    ExecutorService threadPoolExecutor = new ThreadPoolExecutor(1, 10, 3,
-            TimeUnit.MINUTES, new SynchronousQueue<>(), threadFactory, new ThreadPoolExecutor.CallerRunsPolicy());
-
 
     /**
      * 测试线程池
@@ -65,7 +57,7 @@ public class TestServiceImpl implements TestService {
             CompletableFuture<Integer> result = CompletableFuture.supplyAsync(() -> {
                 log.info(Thread.currentThread().getName());
                 return j;
-            }, threadPoolExecutor);
+            }, ThreadPoolUtil.THREAD_POOL_EXECUTOR);
 
             i++;
         }
@@ -76,11 +68,6 @@ public class TestServiceImpl implements TestService {
         }*/
     }
 
-    /**
-     * 测试Ehcache缓存
-     * @param id
-     * @return
-     */
     @Cacheable(value = "UserCache", condition = "#id >= 3", key = "#id")
     @Override
     public City testEhcache(Long id) {
@@ -89,10 +76,29 @@ public class TestServiceImpl implements TestService {
         return city;
     }
 
-
     @CacheEvict(value = "UserCache", key = "#id")
     @Override
     public String clearEhcache(Long id) {
         return "清理缓存" + id + "成功";
+    }
+
+    AtomicInteger number = new AtomicInteger(1);
+
+    @Override
+    public void testExecutor() {
+        ThreadPoolUtil.execute(() -> {
+            String threadName = Thread.currentThread().getName();
+            System.out.println("线程"+threadName+"开启！");
+            try {
+                Thread.sleep(10000);
+                City city = cityMapper.selectByPrimaryKey(1L);
+                city.setId(null);
+                city.setName(String.valueOf(number.getAndIncrement()));
+                cityMapper.insert(city);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("线程"+threadName+"执行结束!");
+        });
     }
 }

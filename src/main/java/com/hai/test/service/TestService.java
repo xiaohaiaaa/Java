@@ -24,4 +24,10 @@ public interface TestService {
      * @return
      */
     String clearEhcache(Long id);
+
+    /**
+     * 测试多线程
+     */
+    void testExecutor();
+
 }
