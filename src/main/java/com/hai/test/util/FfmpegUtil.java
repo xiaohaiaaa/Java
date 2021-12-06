@@ -1,11 +1,11 @@
 package com.hai.test.util;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +19,8 @@ import com.hai.test.entity.CmdResult;
  * @Version 1.0
  **/
 public class FfmpegUtil {
+
+    private final static Pattern DURATION = Pattern.compile("\\d{2}:\\d{2}:\\d{2}");
 
     /**
      * 执行Cmd命令方法
@@ -59,27 +61,22 @@ public class FfmpegUtil {
     /**
      * 获取视频文件时长
      *
-     * @param file 文件
+     * @param url 文件地址
      * @return 时长 格式hh:MM:ss
-     * @throws FileNotFoundException 视频不存在抛出此异常
      */
-    public static String getVideoTime(File file) throws FileNotFoundException {
-        if (!file.exists()) {
-            throw new FileNotFoundException(file.getAbsolutePath() + "不存在");
-        }
+    public static String getVideoTime(String url) {
         List<String> commands = new ArrayList<>();
         // cmd /c 是执行完命令后关闭命令窗口的意思
         commands.add("cmd");
         commands.add("/c");
         commands.add("ffmpeg");
         commands.add("-i");
-        commands.add(file.getAbsolutePath());
+        commands.add(url);
         CmdResult result = runCommand(commands);
         String msg = result.getMsg();
         if (result.isSuccess()) {
-            Pattern pattern = Pattern.compile("\\d{2}:\\d{2}:\\d{2}.\\d{2}");
             msg = msg.substring(msg.lastIndexOf("Duration:"));
-            Matcher matcher = pattern.matcher(msg);
+            Matcher matcher = DURATION.matcher(msg);
             String time = "";
             if (matcher.find()) {
                 time = matcher.group();
@@ -91,6 +88,44 @@ public class FfmpegUtil {
     }
 
     /**
+     * 视频切割
+     * @param total
+     * @param url
+     */
+    public static void cutVideo(Integer total, String url) {
+        int begin = url.lastIndexOf("\\");
+        int end = url.lastIndexOf(".");
+        String name = url.substring(begin, end);
+        // 获取视频时长
+        String videoTime = getVideoTime(url);
+        // 根据切割数量计算切割时长
+        int second = parseTimeToSecond(videoTime) / total;
+        // 切割视频
+        List<String> commands = new ArrayList<>();
+        commands.add("cmd");
+        commands.add("/k");
+        commands.add("ffmpeg");
+        commands.add("-ss");
+        for (int i=0 ; i<total; i++) {
+            commands.add(parseTimeToString(i * second));
+            if (i == total - 1) {
+
+            }
+            commands.add("-t");
+            commands.add(parseTimeToString(second));
+            commands.add("-i");
+            commands.add(url);
+            commands.add("-vcodec");
+            commands.add("copy");
+            commands.add("-acodec");
+            commands.add("copy");
+            commands.add(url.replace(name, name + i));
+            runCommand(commands);
+        }
+
+    }
+
+    /**
      * MultipartFile转File方法1
      * @param file
      * @return
@@ -98,8 +133,8 @@ public class FfmpegUtil {
      */
     public static File multipartFileToFile1(MultipartFile file) throws Exception {
         File toFile;
-        if (file.getSize() <= 0) {
-            return null;
+        if (file.isEmpty()) {
+            throw new FileNotFoundException(file.getOriginalFilename() + "不存在");
         } else {
             InputStream ins = file.getInputStream();
             toFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
@@ -134,5 +169,43 @@ public class FfmpegUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 将00:00:00时间格式转换为整型，以秒为单位
+     *
+     * @param timeString 字符串时间时长
+     * @return 时间所对应的秒数
+     */
+    private static int parseTimeToSecond(String timeString) {
+        Matcher matcher = DURATION.matcher(timeString);
+        if (!matcher.matches()) {
+            try {
+                throw new Exception("时间格式不正确");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        int[] time = Arrays.stream(timeString.split(":")).mapToInt(Integer::parseInt).toArray();
+        return time[0] * 3600 + time[1] * 60 + time[2];
+    }
+
+    /**
+     * 将秒表示时长转为00:00:00格式
+     *
+     * @param second 秒数时长
+     * @return 字符串格式时长
+     */
+    private static String parseTimeToString(int second) {
+        String miao = String.format("%02d", second % 60);
+        int minute = second / 60;
+        String fen;
+        if (minute >= 60) {
+            fen = String.format("%02d", minute % 60);
+        } else {
+            fen = String.format("%02d", minute);
+        }
+        String shi = String.format("%02d", minute / 60);
+        return shi + ":" + fen + ":" + miao;
     }
 }

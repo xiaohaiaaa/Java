@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
 import com.hai.test.entity.CmdResult;
+import com.hai.test.entity.CutVideoVO;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
 
@@ -82,6 +83,7 @@ public class TestController {
      * 测试多线程
      */
     @GetMapping("/thread/pool")
+    @ResponseBody
     public void testExecutor() {
         testService.testExecutor();
     }
@@ -90,16 +92,43 @@ public class TestController {
      * 测试优雅关闭
      */
     @GetMapping("/grace/close")
+    @ResponseBody
     public void graceClose() {
         System.exit(0);
     }
 
+    /**
+     * 获取视频时长，直接上传文件的
+     * @param file
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/get/videoTime")
-    public String getVideoTime(@RequestParam("file") MultipartFile file) throws Exception {
+    @ResponseBody
+    public String getVideoTime1(@RequestParam("file") MultipartFile file) throws Exception {
         File file1 = FfmpegUtil.multipartFileToFile1(file);
-        if (file1 != null) {
-            return FfmpegUtil.getVideoTime(file1);
-        }
-        return "";
+        return FfmpegUtil.getVideoTime(file1.getAbsolutePath());
+    }
+
+    /**
+     * 获取视频时长，通过上传文件地址的
+     * @param url
+     * @return
+     */
+    @GetMapping("/get/videoTime2")
+    @ResponseBody
+    public String getVideoTime1(@RequestParam("url") String url) {
+        return FfmpegUtil.getVideoTime(url);
+    }
+
+    /**
+     * 切割视频，通过上传文件地址的
+     * @param cutVideoVO
+     * @return
+     */
+    @PostMapping("/cut/video")
+    @ResponseBody
+    public void cutVideo(@RequestBody CutVideoVO cutVideoVO) {
+        FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
     }
 }

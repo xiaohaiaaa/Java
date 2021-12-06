@@ -16,7 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CmdResult {
 
+    /**
+     * 成功失败标识
+     */
     private boolean success;
 
+    /**
+     * 执行结果信息
+     */
     private String msg;
 }
