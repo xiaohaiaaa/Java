@@ -95,17 +95,11 @@ public class TestController {
     }
 
     @GetMapping("/get/videoTime")
-    public void getVideoTime(@RequestParam("file") MultipartFile file) throws Exception {
+    public String getVideoTime(@RequestParam("file") MultipartFile file) throws Exception {
         File file1 = FfmpegUtil.multipartFileToFile1(file);
         if (file1 != null) {
-            //String videoTime = FfmpegUtil.getVideoTime(file1);
-            List<String> commands = new ArrayList<>();
-            //String command = "ffmpeg " + "-i " + file1.getAbsolutePath();
-            String command = "ipconfig";
-            commands.add(command);
-            CmdResult cmdResult = FfmpegUtil.runCommand(commands);
-            String videoTime = cmdResult.getMsg();
-            System.out.println(videoTime);
+            return FfmpegUtil.getVideoTime(file1);
         }
+        return "";
     }
 }

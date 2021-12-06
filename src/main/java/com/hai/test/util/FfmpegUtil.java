@@ -68,16 +68,20 @@ public class FfmpegUtil {
             throw new FileNotFoundException(file.getAbsolutePath() + "不存在");
         }
         List<String> commands = new ArrayList<>();
+        // cmd /c 是执行完命令后关闭命令窗口的意思
+        commands.add("cmd");
+        commands.add("/c");
         commands.add("ffmpeg");
         commands.add("-i");
         commands.add(file.getAbsolutePath());
         CmdResult result = runCommand(commands);
         String msg = result.getMsg();
         if (result.isSuccess()) {
-            Pattern pattern = Pattern.compile("\\d{2}:\\d{2}:\\d{2}");
+            Pattern pattern = Pattern.compile("\\d{2}:\\d{2}:\\d{2}.\\d{2}");
+            msg = msg.substring(msg.lastIndexOf("Duration:"));
             Matcher matcher = pattern.matcher(msg);
             String time = "";
-            while (matcher.find()) {
+            if (matcher.find()) {
                 time = matcher.group();
             }
             return time;
