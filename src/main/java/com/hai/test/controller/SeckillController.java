@@ -1,13 +1,11 @@
 package com.hai.test.controller;
 
 import com.hai.test.domain.Stock;
-import com.hai.test.domain.TheOrder;
-import com.hai.test.service.OrderService;
 import com.hai.test.service.RedisService;
 import com.hai.test.service.StockService;
 import com.hai.test.service.impl.SeckillServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -21,8 +19,6 @@ import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-
-import static com.hai.test.config.MyRabbitMQConfig.*;
 
 @RestController
 @Slf4j

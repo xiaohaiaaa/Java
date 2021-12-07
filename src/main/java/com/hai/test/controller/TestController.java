@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
+import com.hai.test.domain.TheOrder;
 import com.hai.test.entity.CmdResult;
 import com.hai.test.entity.CutVideoVO;
+import com.hai.test.mapper.TheOrderMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
 
@@ -130,5 +132,19 @@ public class TestController {
     @ResponseBody
     public void cutVideo(@RequestBody CutVideoVO cutVideoVO) {
         FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
+    }
+
+    @Autowired
+    private TheOrderMapper theOrderMapper;
+
+    /**
+     * 测试字段自动填充
+     */
+    @GetMapping("table/insert")
+    public void testTableInsert() {
+        TheOrder theOrder = new TheOrder();
+        theOrder.setOrderName("万佳商城消费订单");
+        theOrder.setOrderUser("张三");
+        theOrderMapper.insert(theOrder);
     }
 }

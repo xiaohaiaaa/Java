@@ -1,24 +1,21 @@
 package com.hai.test.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.*;
+
 import lombok.Data;
 
 /**
- * 订单商品信息表
- * @TableName the_order
+ * 订单信息表
  */
-@TableName(value ="the_order")
 @Data
-public class TheOrder implements Serializable {
+public class TheOrder {
     /**
      * 订单编号
      */
-    @TableId(type = IdType.AUTO)
-    private Integer orderId;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String orderId;
 
     /**
      * 订单名称
@@ -30,47 +27,27 @@ public class TheOrder implements Serializable {
      */
     private String orderUser;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        TheOrder other = (TheOrder) that;
-        return (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
-            && (this.getOrderName() == null ? other.getOrderName() == null : this.getOrderName().equals(other.getOrderName()))
-            && (this.getOrderUser() == null ? other.getOrderUser() == null : this.getOrderUser().equals(other.getOrderUser()));
-    }
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime modifyTime;
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
-        result = prime * result + ((getOrderName() == null) ? 0 : getOrderName().hashCode());
-        result = prime * result + ((getOrderUser() == null) ? 0 : getOrderUser().hashCode());
-        return result;
-    }
+    /**
+     * 创建用户
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private String createUser;
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", orderId=").append(orderId);
-        sb.append(", orderName=").append(orderName);
-        sb.append(", orderUser=").append(orderUser);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+    /**
+     * 更新用户
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String modifyUser;
 }

@@ -53,3 +53,14 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    local-cache-scope: SESSION
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+    db-config:
+      id-type: ASSIGN_UUID
+      table-underline: true
+      where-strategy: NOT_EMPTY
+      insert-strategy: NOT_EMPTY
+      update-strategy: NOT_EMPTY
