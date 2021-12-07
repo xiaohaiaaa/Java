@@ -1,18 +1,21 @@
 package com.hai.test.util;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.entity.CmdResult;
 
 /**
- * @ClassName FfmpegUtil
+ * @ClassName FfmpegUtil，使用的ffmpeg需要先单独下载安装
  * @Description
  * @Author ZXH
  * @Date 2021/12/4 15:55
@@ -98,19 +101,20 @@ public class FfmpegUtil {
         String name = url.substring(begin, end);
         // 获取视频时长
         String videoTime = getVideoTime(url);
+        int videoTimes = parseTimeToSecond(videoTime);
         // 根据切割数量计算切割时长
-        int second = parseTimeToSecond(videoTime) / total;
+        int second = new BigDecimal(String.valueOf(videoTimes)).divide(new BigDecimal(total), 0, RoundingMode.UP).intValue();
         // 切割视频
         List<String> commands = new ArrayList<>();
-        commands.add("cmd");
-        commands.add("/k");
-        commands.add("ffmpeg");
-        commands.add("-ss");
-        for (int i=0 ; i<total; i++) {
-            commands.add(parseTimeToString(i * second));
-            if (i == total - 1) {
-
+        for (int i = 0; i < total; i++) {
+            if (i * second >= videoTimes) {
+                break;
             }
+            commands.add("cmd");
+            commands.add("/c");
+            commands.add("ffmpeg");
+            commands.add("-ss");
+            commands.add(parseTimeToString(i * second));
             commands.add("-t");
             commands.add(parseTimeToString(second));
             commands.add("-i");
@@ -119,8 +123,9 @@ public class FfmpegUtil {
             commands.add("copy");
             commands.add("-acodec");
             commands.add("copy");
-            commands.add(url.replace(name, name + i));
+            commands.add(url.replace(name, name + (i + 1)));
             runCommand(commands);
+            commands.clear();
         }
 
     }

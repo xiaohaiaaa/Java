@@ -32,23 +32,4 @@ public class somethingTest {
         System.out.println(jsonTemplate.getString("templateName"));
     }
 
-    @Test
-    public void test2() {
-        String s = parseTimeToString(5);
-        System.out.println(s);
-    }
-
-    private String parseTimeToString(int second) {
-        String miao = String.format("%02d", second % 60);
-        int minute = second / 60;
-        String fen;
-        if (minute >= 60) {
-            fen = String.format("%02d", minute % 60);
-        } else {
-            fen = String.format("%02d", minute);
-        }
-        String shi = String.format("%02d", minute / 60);
-        return shi + ":" + fen + ":" + miao;
-    }
-
 }
