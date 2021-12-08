@@ -1,11 +1,6 @@
 package com.hai.test.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -14,15 +9,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
-import com.hai.test.domain.Stock;
-import com.hai.test.domain.TheOrder;
-import com.hai.test.entity.CmdResult;
 import com.hai.test.entity.CutVideoVO;
-import com.hai.test.mapper.StockMapper;
-import com.hai.test.mapper.TheOrderMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
 
