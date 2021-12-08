@@ -16,15 +16,7 @@
     <!--@mbg.generated-->
     order_id, order_name, order_user, create_time, modify_time, create_user, modify_user
   </sql>
-  <insert id="insert" parameterType="com.hai.test.domain.TheOrder">
-    <!--@mbg.generated-->
-    insert into the_order (order_id, order_name, order_user, 
-      create_time, modify_time, create_user, 
-      modify_user)
-    values (#{orderId,jdbcType=VARCHAR}, #{orderName,jdbcType=VARCHAR}, #{orderUser,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
-      #{modifyUser,jdbcType=VARCHAR})
-  </insert>
+
   <insert id="batchInsert" parameterType="map">
     <!--@mbg.generated-->
     insert into the_order
@@ -37,4 +29,5 @@
         #{item.modifyUser,jdbcType=VARCHAR})
     </foreach>
   </insert>
+
 </mapper>

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TheOrderMapper extends BaseMapper<TheOrder> {
-    int insert(TheOrder record);
 
     int batchInsert(@Param("list") List<TheOrder> list);
 }

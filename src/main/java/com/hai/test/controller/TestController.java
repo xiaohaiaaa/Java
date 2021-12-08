@@ -14,6 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
 import com.hai.test.domain.TheOrder;
@@ -134,17 +135,4 @@ public class TestController {
         FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
     }
 
-    @Autowired
-    private TheOrderMapper theOrderMapper;
-
-    /**
-     * 测试字段自动填充
-     */
-    @GetMapping("table/insert")
-    public void testTableInsert() {
-        TheOrder theOrder = new TheOrder();
-        theOrder.setOrderName("万佳商城消费订单");
-        theOrder.setOrderUser("张三");
-        theOrderMapper.insert(theOrder);
-    }
 }
