@@ -137,18 +137,4 @@ public class TestController {
         FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
     }
 
-    @Autowired
-    private StockMapper stockMapper;
-
-    /**
-     * 测试字段自动填充
-     */
-    @GetMapping("table/insert")
-    public void testTableInsert() {
-        Stock stock = new Stock();
-        stock.setStockName("香蕉");
-        stock.setStockNumber(100);
-        stockMapper.insert(stock);
-    }
-
 }
