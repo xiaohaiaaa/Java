@@ -17,9 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.hai.test.common.Section;
 import com.hai.test.domain.City;
+import com.hai.test.domain.Stock;
 import com.hai.test.domain.TheOrder;
 import com.hai.test.entity.CmdResult;
 import com.hai.test.entity.CutVideoVO;
+import com.hai.test.mapper.StockMapper;
 import com.hai.test.mapper.TheOrderMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
@@ -133,6 +135,20 @@ public class TestController {
     @ResponseBody
     public void cutVideo(@RequestBody CutVideoVO cutVideoVO) {
         FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
+    }
+
+    @Autowired
+    private StockMapper stockMapper;
+
+    /**
+     * 测试字段自动填充
+     */
+    @GetMapping("table/insert")
+    public void testTableInsert() {
+        Stock stock = new Stock();
+        stock.setStockName("香蕉");
+        stock.setStockNumber(100);
+        stockMapper.insert(stock);
     }
 
 }

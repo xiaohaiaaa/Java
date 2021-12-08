@@ -2,6 +2,7 @@ package com.hai.test.domain;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import lombok.Data;
@@ -15,7 +16,7 @@ public class City implements Serializable {
     /**
      * ID
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**

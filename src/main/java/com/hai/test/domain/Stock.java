@@ -2,6 +2,7 @@ package com.hai.test.domain;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,7 +19,7 @@ public class Stock implements Serializable {
     /**
      * 编号
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer stockId;
 
     /**
