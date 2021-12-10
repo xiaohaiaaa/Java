@@ -1,4 +1,4 @@
-package com.hai.test.common;
+package com.hai.test.common.aspect;
 
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -30,7 +30,7 @@ public class SectionImpl {
         return "around end!";
     }*/
 
-    @Pointcut("@annotation(com.hai.test.common.Section)")
+    @Pointcut("@annotation(com.hai.test.common.aspect.Section)")
     private void pointcut() {
 
     }

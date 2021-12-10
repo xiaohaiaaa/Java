@@ -24,4 +24,30 @@ public class NacosCommonConfig {
     @Value("${mch.template:{\"templateName\":\"默认商品套餐\",\"packageType\":\"0\",\"defaultValue\":\"0\",\n"
             + "\"deviceType\":\"1,2\"}}")
     private String mchTemplate;
+
+    /**
+     * 线上运维请求头
+     */
+    @Value("${dev.ops.req.header:Hai-Dev-Ops}")
+    private String devOpsReqHeader;
+
+    /**
+     * 签名校验开关
+     *
+     */
+    @Value("${param.sign.check.mode:force}")
+    private String paramSignCheckMode;
+
+    /**
+     * 签名校验有效期，30秒
+     */
+    @Value("${param.sign.timestamp:60000}")
+    private Integer paramSignTimeStamp;
+
+    /**
+     * jwtAppId 枚举
+     */
+    @Value("${app.jwtId:{\"PLATFORM_MANAGE\":\"loaSrYmlhlXevWlI0\",\"MCH_MANAGE\":\"loaSrYmlhlXevWlI1\",\"ANDROID\":\"loaSrYmlhlXevWlI2\",\n"
+            + "\"IOT\":\"loaSrYmlhlXevWlI3\",\"FACTORY_MANAGE\":\"loaSrYmlhlXevWlI4\",\"WAP\":\"loaSrYmlhlXevWlI5\"}}")
+    private String appJwtId;
 }

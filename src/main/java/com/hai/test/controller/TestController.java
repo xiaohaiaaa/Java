@@ -9,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hai.test.common.Section;
+import com.hai.test.common.aspect.Section;
 import com.hai.test.domain.City;
 import com.hai.test.entity.CutVideoVO;
 import com.hai.test.service.TestService;

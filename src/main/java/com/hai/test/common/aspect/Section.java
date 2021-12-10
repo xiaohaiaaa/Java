@@ -1,4 +1,4 @@
-package com.hai.test.common;
+package com.hai.test.common.aspect;
 
 import java.lang.annotation.*;
 
