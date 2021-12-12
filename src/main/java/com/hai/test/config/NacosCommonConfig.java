@@ -35,7 +35,7 @@ public class NacosCommonConfig {
      * 签名校验开关
      *
      */
-    @Value("${param.sign.check.mode:force}")
+    @Value("${param.sign.check.mode:close}")
     private String paramSignCheckMode;
 
     /**

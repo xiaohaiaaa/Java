@@ -1,5 +1,11 @@
 package com.hai.test.util;
 
+import com.hai.test.entity.CmdResult;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,10 +16,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.hai.test.entity.CmdResult;
-
 /**
  * @ClassName FfmpegUtil，使用的ffmpeg需要先单独下载安装
  * @Description
@@ -21,6 +23,7 @@ import com.hai.test.entity.CmdResult;
  * @Date 2021/12/4 15:55
  * @Version 1.0
  **/
+@Component
 public class FfmpegUtil {
 
     private final static Pattern DURATION = Pattern.compile("\\d{2}:\\d{2}:\\d{2}");
@@ -127,7 +130,33 @@ public class FfmpegUtil {
             runCommand(commands);
             commands.clear();
         }
+    }
 
+    /**
+     * m3u8视频转mp4下载
+     * @param url
+     * @param name
+     */
+    @Async
+    public void downVideo(String url, String name) {
+        if (Strings.isBlank(name)) {
+            name = DistributedIdUtil.ObjectId();
+        }
+        List<String> commands = new ArrayList<>();
+        commands.add("cmd");
+        commands.add("/c");
+        commands.add("D:");
+        commands.add("&");
+        commands.add("cd");
+        commands.add("D:\\save");
+        commands.add("&");
+        commands.add("ffmpeg");
+        commands.add("-i");
+        commands.add(url);
+        commands.add("-c");
+        commands.add("copy");
+        commands.add(name + ".mp4");
+        runCommand(commands);
     }
 
     /**

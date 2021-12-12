@@ -26,8 +26,8 @@ public class TestController {
     @Autowired
     private TestService testService;
 
-    @Resource(name = "threadPoolTaskExecutor")
-    private ThreadPoolTaskExecutor executor;
+    @Autowired
+    private FfmpegUtil ffmpegUtil;
 
     /**
      * 测试线程池
@@ -124,6 +124,19 @@ public class TestController {
     @ResponseBody
     public void cutVideo(@RequestBody CutVideoVO cutVideoVO) {
         FfmpegUtil.cutVideo(cutVideoVO.getTotal(), cutVideoVO.getUrl());
+    }
+
+    /**
+     * 视频下载
+     * @param url
+     * @param name
+     * @return
+     */
+    @GetMapping("/down/video")
+    @ResponseBody
+    public String downVideo(@RequestParam("url") String url, @RequestParam(value = "name", required = false) String name) {
+        ffmpegUtil.downVideo(url, name);
+        return "success";
     }
 
 }
