@@ -2,6 +2,7 @@ package com.hai.test.common.filter;
 
 
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +23,17 @@ public class RequestBodyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        RequestWrapper requestWrapper = new RequestWrapper(httpServletRequest);
-        RequestBodyContext.REQUEST_BODY.set(requestWrapper);
-        chain.doFilter(requestWrapper, response);
-        RequestBodyContext.REQUEST_BODY.remove();
+        try {
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+            RequestWrapper requestWrapper = null;
+            if (!"/test/import/excel".equals(httpServletRequest.getRequestURI())) {
+                requestWrapper = new RequestWrapper(httpServletRequest);
+                RequestBodyContext.REQUEST_BODY.set(requestWrapper);
+            }
+            chain.doFilter(Objects.isNull(requestWrapper) ? request : requestWrapper, response);
+        } finally {
+            RequestBodyContext.REQUEST_BODY.remove();
+        }
     }
 
     @Override

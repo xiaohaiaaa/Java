@@ -26,6 +26,12 @@ public class NacosCommonConfig {
     private String mchTemplate;
 
     /**
+     * 商户标签
+     */
+    @Value("${goods.tag:[{\"tagId\":\"1234\",\"tagName\":\"标签一\"},{\"tagId\":\"5678\",\"tagName\":\"标签二\"}]}")
+    private String goodsTag;
+
+    /**
      * 线上运维请求头
      */
     @Value("${dev.ops.req.header:Hai-Dev-Ops}")
@@ -50,4 +56,10 @@ public class NacosCommonConfig {
     @Value("${app.jwtId:{\"PLATFORM_MANAGE\":\"loaSrYmlhlXevWlI0\",\"MCH_MANAGE\":\"loaSrYmlhlXevWlI1\",\"ANDROID\":\"loaSrYmlhlXevWlI2\",\n"
             + "\"IOT\":\"loaSrYmlhlXevWlI3\",\"FACTORY_MANAGE\":\"loaSrYmlhlXevWlI4\",\"WAP\":\"loaSrYmlhlXevWlI5\"}}")
     private String appJwtId;
+
+    /**
+     * AI识别成功，是否再转客服复核
+     */
+    @Value("${user.review:false}")
+    private Boolean userReview;
 }

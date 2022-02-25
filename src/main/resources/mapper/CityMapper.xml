@@ -79,4 +79,11 @@
             Population =  #{population,jdbcType=INTEGER}
         where   ID = #{id,jdbcType=INTEGER} 
     </update>
+
+    <select id="selectForUpdate" resultMap="BaseResultMap">
+        SELECT *
+        FROM city
+        WHERE id = #{id}
+        FOR UPDATE
+    </select>
 </mapper>

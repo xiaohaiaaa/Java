@@ -1,6 +1,11 @@
 package com.hai.test.service;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.hai.test.domain.City;
+import com.hai.test.entity.ImportVO;
 
 /**
  * @author 13352
@@ -29,5 +34,20 @@ public interface TestService {
      * 测试多线程
      */
     void testExecutor();
+
+    /**
+     * 测试表格导入
+     *
+     * @param file
+     * @param ignoreRow
+     * @return
+     */
+    List<ImportVO> testImportExcel(MultipartFile file, Integer ignoreRow);
+
+    /**
+     * 测试表级锁
+     */
+    void testSelectUpdate1();
+    void testSelectUpdate2();
 
 }

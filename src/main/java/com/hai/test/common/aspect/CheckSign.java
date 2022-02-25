@@ -57,6 +57,13 @@ public class CheckSign {
     }
 
     private void handle(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getStaticPart().getSignature();
+        Method method = methodSignature.getMethod();
+        NoCheckSign noCheckSign = method.getAnnotation(NoCheckSign.class);
+        // 标注了不需要签名的注解，不校验
+        if (noCheckSign != null) {
+            return;
+        }
         RequestWrapper requestWrapper = RequestBodyContext.REQUEST_BODY.get();
         // 线上运维不校验
         if (nacosCommonConfig.getDevOpsReqHeader().equals(requestWrapper.getHeader(BizConstant.DEV_OPS))) {
@@ -75,14 +82,6 @@ public class CheckSign {
             if (Strings.isBlank(sign) || Strings.isBlank(appId) || Strings.isBlank(timestamp) || Strings.isBlank(nonce)) {
                 return;
             }
-        }
-
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getStaticPart().getSignature();
-        Method method = methodSignature.getMethod();
-        NoCheckSign noCheckSign = method.getAnnotation(NoCheckSign.class);
-        // 标注了不需要签名的注解，不校验
-        if (noCheckSign != null) {
-            return;
         }
         // 签名为空，报错
         if (Strings.isBlank(sign)) {

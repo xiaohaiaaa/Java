@@ -1,23 +1,24 @@
 package com.hai.test.controller;
 
 import java.io.File;
-
-import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hai.test.common.aspect.NoCheckSign;
 import com.hai.test.common.aspect.Section;
 import com.hai.test.domain.City;
 import com.hai.test.entity.CutVideoVO;
+import com.hai.test.entity.ImportVO;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
 
 /**
- * @description 测试控制类
  * @author 13352
+ * @description 测试控制类
  */
 @RestController
 @RequestMapping("/test")
@@ -31,6 +32,7 @@ public class TestController {
 
     /**
      * 测试线程池
+     *
      * @return
      */
     @PostMapping("/threadFactory")
@@ -42,6 +44,7 @@ public class TestController {
 
     /**
      * 测试切面AOP
+     *
      * @return
      */
     @PostMapping("/section")
@@ -53,6 +56,7 @@ public class TestController {
 
     /**
      * 测试使用Ehcache缓存
+     *
      * @param id
      * @return
      */
@@ -64,6 +68,7 @@ public class TestController {
 
     /**
      * 测试清除Ehcache缓存
+     *
      * @param id
      * @return
      */
@@ -93,6 +98,7 @@ public class TestController {
 
     /**
      * 获取视频时长，直接上传文件的
+     *
      * @param file
      * @return
      * @throws Exception
@@ -106,6 +112,7 @@ public class TestController {
 
     /**
      * 获取视频时长，通过上传文件地址的
+     *
      * @param url
      * @return
      */
@@ -117,6 +124,7 @@ public class TestController {
 
     /**
      * 切割视频，通过上传文件地址的
+     *
      * @param cutVideoVO
      * @return
      */
@@ -128,6 +136,7 @@ public class TestController {
 
     /**
      * 视频下载
+     *
      * @param url
      * @param name
      * @return
@@ -137,6 +146,38 @@ public class TestController {
     public String downVideo(@RequestParam("url") String url, @RequestParam(value = "name", required = false) String name) {
         ffmpegUtil.downVideo(url, name);
         return "success";
+    }
+
+    /**
+     * 表格导入
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/import/excel")
+    @ResponseBody
+    @NoCheckSign
+    public List<ImportVO> importExcel(@RequestParam("file") MultipartFile file, @RequestParam("ignoreRow") Integer ignoreRow) throws IOException {
+        return testService.testImportExcel(file, ignoreRow);
+    }
+
+    /**
+     * 测试表级锁
+     */
+    @GetMapping("/select/update1")
+    @ResponseBody
+    public void testSelectUpdate1() {
+        testService.testSelectUpdate1();
+    }
+
+    /**
+     * 测试表级锁
+     */
+    @GetMapping("/select/update2")
+    @ResponseBody
+    public void testSelectUpdate2() {
+        testService.testSelectUpdate2();
     }
 
 }

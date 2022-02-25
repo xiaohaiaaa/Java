@@ -1,5 +1,7 @@
 package com.hai.test.controller;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.alibaba.fastjson.JSONObject;
 import com.hai.test.TestApplication;
 import com.hai.test.config.NacosCommonConfig;
+import com.hai.test.entity.GoodsTag;
 
 /**
  * @ClassName somethingTest
@@ -32,4 +35,17 @@ public class somethingTest {
         System.out.println(jsonTemplate.getString("templateName"));
     }
 
+    @Test
+    public void test2() {
+        List<GoodsTag> goodsTagList = JSONObject.parseArray(nacosCommonConfig.getGoodsTag(), GoodsTag.class);
+        System.out.println(goodsTagList);
+        for (GoodsTag goodsTag : goodsTagList) {
+            System.out.println(goodsTag.getTagId() + goodsTag.getTagName());
+        }
+    }
+
+    @Test
+    public void test3() {
+        System.out.println(nacosCommonConfig.getUserReview());
+    }
 }

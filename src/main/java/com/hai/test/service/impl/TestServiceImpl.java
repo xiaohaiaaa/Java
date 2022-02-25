@@ -1,5 +1,8 @@
 package com.hai.test.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,12 +13,16 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
+import com.hai.test.entity.ImportVO;
 import com.hai.test.mapper.CityMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.ThreadPoolUtil;
 
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -100,5 +107,60 @@ public class TestServiceImpl implements TestService {
             }
             System.out.println("线程"+threadName+"执行结束!");
         });
+    }
+
+    @Override
+    public List<ImportVO> testImportExcel(MultipartFile file, Integer ignoreRow) {
+        List<ImportVO> importVOList = new ArrayList<>();
+        /*InputStream inputStream = file.getInputStream();
+        List<String[]> dataList = PoiUtil.readExcel(inputStream, ignoreRow);
+        for (String[] str : dataList) {
+            ImportVO importVO = new ImportVO();
+            if (str.length >= 1) {
+                importVO.setData1(str[0]);
+            }
+            if (str.length >= 2) {
+                importVO.setData2(str[1]);
+            }
+            if (str.length >= 3) {
+                importVO.setData3(str[2]);
+            }
+            if (str.length >= 4) {
+                importVO.setData4(str[3]);
+            }
+            if (str.length >= 5) {
+                importVO.setData5(str[4]);
+            }
+            importVOList.add(importVO);
+        }*/
+        ExcelReader reader = null;
+        try {
+            reader = ExcelUtil.getReader(file.getInputStream());
+            List<List<Object>> read = reader.read();
+            System.out.println(read);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return importVOList;
+    }
+
+    @Override
+    public void testSelectUpdate1() {
+        City city = cityMapper.selectById("1");
+        System.out.println("before sleep: " + city);
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        city.setCountrycode("003");
+        cityMapper.updateById(city);
+    }
+
+    @Override
+    public void testSelectUpdate2() {
+        City city = cityMapper.selectForUpdate(1l);
+        city.setCountrycode("002");
+        cityMapper.updateById(city);
     }
 }
