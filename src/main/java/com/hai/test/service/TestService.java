@@ -2,6 +2,8 @@ package com.hai.test.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
@@ -43,6 +45,13 @@ public interface TestService {
      * @return
      */
     List<ImportVO> testImportExcel(MultipartFile file, Integer ignoreRow);
+
+    /**
+     * 测试表格导出
+     *
+     * @param response
+     */
+    void testExportExcel(HttpServletResponse response);
 
     /**
      * 测试表级锁

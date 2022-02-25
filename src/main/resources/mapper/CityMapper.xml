@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.hai.test.domain.City">
             <id property="id" column="ID" jdbcType="INTEGER"/>
             <result property="name" column="Name" jdbcType="VARCHAR"/>
-            <result property="countrycode" column="CountryCode" jdbcType="VARCHAR"/>
+            <result property="countryCode" column="CountryCode" jdbcType="VARCHAR"/>
             <result property="district" column="District" jdbcType="VARCHAR"/>
             <result property="population" column="Population" jdbcType="INTEGER"/>
     </resultMap>
@@ -32,7 +32,7 @@
         insert into city
         ( ID,Name,CountryCode
         ,District,Population)
-        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{countrycode,jdbcType=VARCHAR}
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{countryCode,jdbcType=VARCHAR}
         ,#{district,jdbcType=VARCHAR},#{population,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.hai.test.domain.City" useGeneratedKeys="true">
@@ -40,14 +40,14 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
                 <if test="name != null">name,</if>
-                <if test="countrycode != null">countrycode,</if>
+                <if test="countryCode != null">countrycode,</if>
                 <if test="district != null">district,</if>
                 <if test="population != null">population,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">ID = #{id,jdbcType=INTEGER},</if>
                 <if test="name != null">Name = #{name,jdbcType=VARCHAR},</if>
-                <if test="countrycode != null">CountryCode = #{countrycode,jdbcType=VARCHAR},</if>
+                <if test="countryCode != null">CountryCode = #{countryCode,jdbcType=VARCHAR},</if>
                 <if test="district != null">District = #{district,jdbcType=VARCHAR},</if>
                 <if test="population != null">Population = #{population,jdbcType=INTEGER},</if>
         </trim>
@@ -58,8 +58,8 @@
                 <if test="name != null">
                     Name = #{name,jdbcType=VARCHAR},
                 </if>
-                <if test="countrycode != null">
-                    CountryCode = #{countrycode,jdbcType=VARCHAR},
+                <if test="countryCode != null">
+                    CountryCode = #{countryCode,jdbcType=VARCHAR},
                 </if>
                 <if test="district != null">
                     District = #{district,jdbcType=VARCHAR},
@@ -72,12 +72,12 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.hai.test.domain.City">
         update city
-        set 
-            Name =  #{name,jdbcType=VARCHAR},
-            CountryCode =  #{countrycode,jdbcType=VARCHAR},
-            District =  #{district,jdbcType=VARCHAR},
-            Population =  #{population,jdbcType=INTEGER}
-        where   ID = #{id,jdbcType=INTEGER} 
+        set
+        Name = #{name,jdbcType=VARCHAR},
+        CountryCode = #{countryCode,jdbcType=VARCHAR},
+        District = #{district,jdbcType=VARCHAR},
+        Population = #{population,jdbcType=INTEGER}
+        where ID = #{id,jdbcType=INTEGER}
     </update>
 
     <select id="selectForUpdate" resultMap="BaseResultMap">

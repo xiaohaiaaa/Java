@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -160,6 +162,15 @@ public class TestController {
     @NoCheckSign
     public List<ImportVO> importExcel(@RequestParam("file") MultipartFile file, @RequestParam("ignoreRow") Integer ignoreRow) throws IOException {
         return testService.testImportExcel(file, ignoreRow);
+    }
+
+    /**
+     * 测试excel导出
+     */
+    @GetMapping("/export/excel")
+    @ResponseBody
+    public void exportExcel(HttpServletResponse response) {
+        testService.testExportExcel(response);
     }
 
     /**

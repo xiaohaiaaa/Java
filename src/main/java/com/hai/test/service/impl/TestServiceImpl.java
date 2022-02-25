@@ -1,17 +1,23 @@
 package com.hai.test.service.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +30,10 @@ import com.hai.test.mapper.CityMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.ThreadPoolUtil;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -150,6 +158,48 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public void testExportExcel(HttpServletResponse response) {
+        ExcelWriter excelWriter = null;
+        ServletOutputStream outputStream = null;
+        try {
+            response.setContentType("application/vnd.ms-excel;charset=gbk");
+            String headValue = String.format("attachment;filename=\"%s\"",
+                    new String("城市列表.xls".getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, headValue);
+            // 写出xls
+            excelWriter = ExcelUtil.getWriter();
+            // 命名当前页
+            excelWriter.renameSheet("城市列表");
+            // 第一行标题
+            List<String> headList = Arrays.asList("ID", "名称", "国家", "地区", "人口");
+            excelWriter.writeHeadRow(headList);
+            // 自定义表格标题别名
+            excelWriter.addHeaderAlias("id", "ID");
+            excelWriter.addHeaderAlias("name", "名称");
+            excelWriter.addHeaderAlias("countryCode", "国家");
+            excelWriter.addHeaderAlias("district", "地区");
+            excelWriter.addHeaderAlias("population", "人口");
+            // 查询输出数据
+            List<City> cityList = new ArrayList<>();
+            City city = cityMapper.selectById("1");
+            cityList.add(city);
+            // 写出
+            excelWriter.write(cityList, false);
+            outputStream = response.getOutputStream();
+            excelWriter.flush(outputStream, true);
+        } catch (Exception e) {
+            log.error("export record error", e);
+        } finally {
+            // 关闭writer，释放内存
+            if (Objects.nonNull(excelWriter)) {
+                excelWriter.close();
+            }
+            // 此次记得关闭输出servlet流
+            IoUtil.close(outputStream);
+        }
+    }
+
+    @Override
     public void testSelectUpdate1() {
         City city = cityMapper.selectById("1");
         System.out.println("before sleep: " + city);
@@ -158,14 +208,14 @@ public class TestServiceImpl implements TestService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        city.setCountrycode("003");
+        city.setCountryCode("003");
         cityMapper.updateById(city);
     }
 
     @Override
     public void testSelectUpdate2() {
         City city = cityMapper.selectForUpdate(1l);
-        city.setCountrycode("002");
+        city.setCountryCode("002");
         cityMapper.updateById(city);
     }
 
@@ -175,7 +225,7 @@ public class TestServiceImpl implements TestService {
         City city = new City();
         city.setId(2);
         city.setName("广州市");
-        city.setCountrycode("003");
+        city.setCountryCode("003");
         city.setDistrict("广东");
         city.setPopulation(1);
         cityMapper.insert(city);
