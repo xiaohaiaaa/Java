@@ -50,4 +50,9 @@ public interface TestService {
     void testSelectUpdate1();
     void testSelectUpdate2();
 
+    /**
+     * 测试事件监听和发布
+     */
+    void testEvent();
+
 }

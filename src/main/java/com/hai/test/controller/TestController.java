@@ -180,4 +180,13 @@ public class TestController {
         testService.testSelectUpdate2();
     }
 
+    /**
+     * 测试事件监听和发布
+     */
+    @GetMapping("/event")
+    @ResponseBody
+    public void testEvent() {
+        testService.testEvent();
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.hai.test.service.impl;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Pattern;
 
 /**

@@ -11,12 +11,15 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
 import com.hai.test.entity.ImportVO;
+import com.hai.test.listener.TestEventBO;
 import com.hai.test.mapper.CityMapper;
 import com.hai.test.service.TestService;
 import com.hai.test.util.ThreadPoolUtil;
@@ -37,6 +40,8 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private CityMapper cityMapper;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     //男性和女性
     private final String GENDER_MALE = "MALE";
@@ -162,5 +167,18 @@ public class TestServiceImpl implements TestService {
         City city = cityMapper.selectForUpdate(1l);
         city.setCountrycode("002");
         cityMapper.updateById(city);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void testEvent() {
+        City city = new City();
+        city.setId(2);
+        city.setName("广州市");
+        city.setCountrycode("003");
+        city.setDistrict("广东");
+        city.setPopulation(1);
+        cityMapper.insert(city);
+        eventPublisher.publishEvent(new TestEventBO(this, city));
     }
 }
