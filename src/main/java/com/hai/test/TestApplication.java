@@ -7,10 +7,12 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+
 /**
  * @author 13352
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 @EnableAsync
 @EnableScheduling
 @MapperScan(basePackages = "com.hai.test.mapper")

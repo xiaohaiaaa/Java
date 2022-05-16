@@ -1,6 +1,7 @@
 package com.hai.test.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -63,5 +64,11 @@ public interface TestService {
      * 测试事件监听和发布
      */
     void testEvent();
+
+    /**
+     * 测试sharding集成多数据源
+     * @return
+     */
+    Map testSelectSharding();
 
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.hai.test.mapper.OnlineTransLogMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hai.test.domain.OnlineTransLog">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="mch_id" property="mchId" />
+		<result column="mch_account" property="mchAccount" />
+		<result column="mch_terminal_id" property="mchTerminalId" />
+		<result column="pay_type" property="payType" />
+		<result column="user_id" property="userId" />
+		<result column="user_account" property="userAccount" />
+		<result column="root_org_id" property="rootOrgId" />
+		<result column="machine_code" property="machineCode" />
+		<result column="subject" property="subject" />
+		<result column="body" property="body" />
+		<result column="trade_no" property="tradeNo" />
+		<result column="out_trade_no" property="outTradeNo" />
+		<result column="transaction_id" property="transactionId" />
+		<result column="total_fee" property="totalFee" />
+		<result column="pay_fee" property="payFee" />
+		<result column="coupon_fee" property="couponFee" />
+		<result column="fee_type" property="feeType" />
+		<result column="trade_type" property="tradeType" />
+		<result column="order_create" property="orderCreate" />
+		<result column="order_finish" property="orderFinish" />
+		<result column="gmt_created" property="gmtCreated" />
+		<result column="gmt_modified" property="gmtModified" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, app_id,mch_id, mch_account, mch_terminal_id, pay_type,
+		user_id,
+		user_account, root_org_id, machine_code, subject, body, trade_no,
+		out_trade_no,
+		transaction_id, total_fee,pay_fee, coupon_fee, fee_type,
+		trade_type,order_create,
+		order_finish, gmt_created, gmt_modified
+	</sql>
+
+	<select id="getLogByTradeNo" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List"/>
+		FROM online_trans_log
+		WHERE trade_no = #{tradeNo} and root_org_id = #{rootOrgId}
+	</select>
+
+
+</mapper>

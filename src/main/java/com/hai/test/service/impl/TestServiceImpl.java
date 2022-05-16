@@ -2,10 +2,7 @@ package com.hai.test.service.impl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,9 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
+import com.hai.test.domain.OnlineTransLog;
 import com.hai.test.entity.ImportVO;
 import com.hai.test.listener.TestEventBO;
 import com.hai.test.mapper.CityMapper;
+import com.hai.test.service.OnlineTransLogService;
 import com.hai.test.service.TestService;
 import com.hai.test.util.ThreadPoolUtil;
 
@@ -50,6 +49,8 @@ public class TestServiceImpl implements TestService {
     private CityMapper cityMapper;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+    @Autowired
+    private OnlineTransLogService onlineTransLogService;
 
     //男性和女性
     private final String GENDER_MALE = "MALE";
@@ -149,7 +150,8 @@ public class TestServiceImpl implements TestService {
         ExcelReader reader = null;
         try {
             reader = ExcelUtil.getReader(file.getInputStream());
-            List<List<Object>> read = reader.read();
+            List<List<Object>> read = reader.read(2);
+            //List<Object> read = reader.readRow(3);
             System.out.println(read);
         } catch (IOException e) {
             e.printStackTrace();
@@ -230,5 +232,15 @@ public class TestServiceImpl implements TestService {
         city.setPopulation(1);
         cityMapper.insert(city);
         eventPublisher.publishEvent(new TestEventBO(this, city));
+    }
+
+    @Override
+    public Map testSelectSharding() {
+        Map map = new HashMap<>();
+        City city = cityMapper.selectById(1l);
+        OnlineTransLog logByTradeNo = onlineTransLogService.getLogByTradeNo("1", "0162");
+        map.put("City", city);
+        map.put("OnlineTransLog", logByTradeNo);
+        return map;
     }
 }

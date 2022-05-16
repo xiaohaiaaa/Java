@@ -3,6 +3,7 @@ package com.hai.test.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -198,6 +199,16 @@ public class TestController {
     @ResponseBody
     public void testEvent() {
         testService.testEvent();
+    }
+
+    /**
+     * 测试sharding集成多数据源
+     * @return
+     */
+    @GetMapping("/select/dataSource")
+    @ResponseBody
+    public Map testSelectSharding() {
+        return testService.testSelectSharding();
     }
 
 }

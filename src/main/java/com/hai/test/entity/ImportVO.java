@@ -12,9 +12,33 @@ import lombok.Data;
 @Data
 public class ImportVO {
 
-    private String data1;
-    private String data2;
-    private String data3;
-    private String data4;
-    private String data5;
+    /**
+     * 纷享客户名称
+     */
+    private String tenantName;
+
+    /**
+     * 纷享客户编号
+     */
+    private String tenantId;
+
+    /**
+     * 客户类型
+     */
+    private String tenantType;
+
+    /**
+     * 所在省
+     */
+    private String province;
+
+    /**
+     * 所在市
+     */
+    private String city;
+
+    /**
+     * 业务员
+     */
+    private String salesman;
 }
