@@ -35,6 +35,7 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setThreadNamePrefix("asyncTask-");
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(60);
         executor.initialize();
         return executor;
     }
