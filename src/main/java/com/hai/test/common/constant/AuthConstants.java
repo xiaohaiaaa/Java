@@ -1,13 +1,13 @@
 package com.hai.test.common.constant;
 
 /**
- * @ClassName BizConstant
- * @Description 业务常量类
+ * @ClassName AuthConstants
+ * @Description 授权通用常量类
  * @Author ZXH
  * @Date 2021/12/9 9:30
  * @Version 1.0
  **/
-public final class BizConstant {
+public final class AuthConstants {
 
     /**
      * 请求头 访问token

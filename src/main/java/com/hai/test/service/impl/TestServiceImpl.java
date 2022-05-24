@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
 import com.hai.test.domain.OnlineTransLog;
-import com.hai.test.entity.ImportVO;
+import com.hai.test.entity.vo.ImportVO;
 import com.hai.test.listener.TestEventBO;
 import com.hai.test.mapper.CityMapper;
 import com.hai.test.service.OnlineTransLogService;

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hai.test.domain.City;
-import com.hai.test.entity.ImportVO;
+import com.hai.test.entity.vo.ImportVO;
 
 /**
  * @author 13352

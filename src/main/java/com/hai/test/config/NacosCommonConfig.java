@@ -1,5 +1,7 @@
 package com.hai.test.config;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -62,4 +64,10 @@ public class NacosCommonConfig {
      */
     @Value("${user.review:false}")
     private Boolean userReview;
+
+    /**
+     * 白名单地址
+     */
+    @Value("#{'${web.interceptor.whitelist:/error,/favicon.ico}'.split(',')}")
+    private Set<String> whiteListStrs;
 }

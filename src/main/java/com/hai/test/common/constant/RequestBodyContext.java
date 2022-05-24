@@ -1,4 +1,6 @@
-package com.hai.test.common.filter;
+package com.hai.test.common.constant;
+
+import com.hai.test.common.filter.RequestWrapper;
 
 /**
  * @ClassName RequestBodyContext

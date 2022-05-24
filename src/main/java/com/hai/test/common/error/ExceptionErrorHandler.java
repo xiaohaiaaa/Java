@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hai.test.common.constant.BizConstant;
-import com.hai.test.common.filter.RequestBodyContext;
+import com.hai.test.common.constant.AuthConstants;
+import com.hai.test.common.constant.RequestBodyContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +54,7 @@ public class ExceptionErrorHandler {
         StringBuilder error = new StringBuilder();
         error.append("\n--------------------------代码调试请求信息begin-----------------------------------------------");
         error.append("\n请求路径：" + req.getServletPath());
-        error.append("\n会话Token：" + req.getHeader(BizConstant.JWT_ACCESS_TOKEN));
+        error.append("\n会话Token：" + req.getHeader(AuthConstants.JWT_ACCESS_TOKEN));
         error.append("\n请求方式：" + req.getMethod());
         //error.append("\n请求IP：" + WebUtils.getIp(req));
         error.append("\nGet请求参数：" + JSONObject.toJSONString(req.getParameterMap()));

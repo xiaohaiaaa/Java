@@ -1,6 +1,6 @@
 package com.hai.test.util;
 
-import com.hai.test.entity.CmdResult;
+import com.hai.test.entity.bo.CmdResult;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

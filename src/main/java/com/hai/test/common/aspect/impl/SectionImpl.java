@@ -1,4 +1,4 @@
-package com.hai.test.common.aspect;
+package com.hai.test.common.aspect.impl;
 
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+
+import com.hai.test.common.aspect.Section;
 
 /**
  * @author 13352
@@ -37,7 +39,7 @@ public class SectionImpl {
 
     @SneakyThrows
     @Around("pointcut()&&@annotation(section)")
-    public String checkSomething(ProceedingJoinPoint joinPoint,Section section) {
+    public String checkSomething(ProceedingJoinPoint joinPoint, Section section) {
         if ("boy".equals(section.gender()) && section.age() > 18) {
             return (String) joinPoint.proceed();
         } else {

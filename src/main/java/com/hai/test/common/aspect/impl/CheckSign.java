@@ -1,4 +1,4 @@
-package com.hai.test.common.aspect;
+package com.hai.test.common.aspect.impl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
-import com.hai.test.common.constant.BizConstant;
+import com.hai.test.common.aspect.NoCheckSign;
+import com.hai.test.common.constant.AuthConstants;
 import com.hai.test.common.enumeration.CheckSignEnum;
 import com.hai.test.common.error.BaseErrorCode;
 import com.hai.test.common.error.BusinessException;
-import com.hai.test.common.filter.RequestBodyContext;
+import com.hai.test.common.constant.RequestBodyContext;
 import com.hai.test.common.filter.RequestWrapper;
 import com.hai.test.config.NacosCommonConfig;
 import com.hai.test.util.GsonUtil;
@@ -66,17 +67,17 @@ public class CheckSign {
         }
         RequestWrapper requestWrapper = RequestBodyContext.REQUEST_BODY.get();
         // 线上运维不校验
-        if (nacosCommonConfig.getDevOpsReqHeader().equals(requestWrapper.getHeader(BizConstant.DEV_OPS))) {
+        if (nacosCommonConfig.getDevOpsReqHeader().equals(requestWrapper.getHeader(AuthConstants.DEV_OPS))) {
             return;
         }
         // 开关关闭不校验
         if (CheckSignEnum.close.name().equals(nacosCommonConfig.getParamSignCheckMode())) {
             return;
         }
-        String sign = requestWrapper.getHeader(BizConstant.APP_SIGN);
-        String appId = requestWrapper.getHeader(BizConstant.APP_ID);
-        String timestamp = requestWrapper.getHeader(BizConstant.APP_TIMESTAMP);
-        String nonce = requestWrapper.getHeader(BizConstant.APP_NONCE);
+        String sign = requestWrapper.getHeader(AuthConstants.APP_SIGN);
+        String appId = requestWrapper.getHeader(AuthConstants.APP_ID);
+        String timestamp = requestWrapper.getHeader(AuthConstants.APP_TIMESTAMP);
+        String nonce = requestWrapper.getHeader(AuthConstants.APP_NONCE);
         // 兼容模式，签名参数为空不校验
         if (CheckSignEnum.compatible.name().equals(nacosCommonConfig.getParamSignCheckMode())) {
             if (Strings.isBlank(sign) || Strings.isBlank(appId) || Strings.isBlank(timestamp) || Strings.isBlank(nonce)) {
@@ -131,9 +132,9 @@ public class CheckSign {
     private String createParamSign(Map<String, String[]> queryParam, String bodyParam, String appId, String timestamp,
                                    String nonce, String appIdParam) {
         Map<String, String> paramMap = new TreeMap<>();
-        paramMap.put(BizConstant.APP_ID, appId);
-        paramMap.put(BizConstant.APP_TIMESTAMP, timestamp);
-        paramMap.put(BizConstant.APP_NONCE, nonce);
+        paramMap.put(AuthConstants.APP_ID, appId);
+        paramMap.put(AuthConstants.APP_TIMESTAMP, timestamp);
+        paramMap.put(AuthConstants.APP_NONCE, nonce);
         // 如果POST请求参数不为空，加入paramMap里面
         if (Strings.isNotBlank(bodyParam)) {
             Gson gson = GsonUtil.getGsonInstance();

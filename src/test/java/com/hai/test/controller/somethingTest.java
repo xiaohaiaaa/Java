@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.alibaba.fastjson.JSONObject;
 import com.hai.test.TestApplication;
 import com.hai.test.config.NacosCommonConfig;
-import com.hai.test.entity.GoodsTag;
+import com.hai.test.entity.bo.GoodsTag;
 
 /**
  * @ClassName somethingTest

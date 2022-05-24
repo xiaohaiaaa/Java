@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hai.test.common.aspect.NoCheckSign;
 import com.hai.test.common.aspect.Section;
 import com.hai.test.domain.City;
-import com.hai.test.entity.CutVideoVO;
-import com.hai.test.entity.ImportVO;
+import com.hai.test.entity.vo.CutVideoVO;
+import com.hai.test.entity.vo.ImportVO;
 import com.hai.test.service.TestService;
 import com.hai.test.util.FfmpegUtil;
 

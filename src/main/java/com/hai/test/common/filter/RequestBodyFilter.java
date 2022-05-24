@@ -7,6 +7,8 @@ import java.util.Objects;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 
+import com.hai.test.common.constant.RequestBodyContext;
+
 /**
  * @ClassName RequestBodyFilter
  * @Description RequestBody过滤器

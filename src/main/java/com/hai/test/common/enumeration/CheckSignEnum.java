@@ -8,5 +8,16 @@ package com.hai.test.common.enumeration;
  * @Version 1.0
  **/
 public enum CheckSignEnum {
-    force, close, compatible
+    /**
+     * 强制校验
+     */
+    force,
+    /**
+     * 关闭校验
+     */
+    close,
+    /**
+     * 简单校验
+     */
+    compatible
 }

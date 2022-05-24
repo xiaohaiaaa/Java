@@ -1,4 +1,4 @@
-package com.hai.test.entity;
+package com.hai.test.entity.bo;
 
 import java.io.Serializable;
 
