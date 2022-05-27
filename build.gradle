@@ -29,7 +29,7 @@ dependencies {
     implementation 'org.springframework.amqp:spring-amqp:2.3.9'
     implementation 'org.springframework.amqp:spring-rabbit:2.3.9'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.4'
-    implementation 'org.springframework.kafka:spring-kafka:2.7.6'
+    //implementation 'org.springframework.kafka:spring-kafka:2.7.6'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.4'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2021.1'
     implementation 'junit:junit:4.13.1'
@@ -47,7 +47,14 @@ dependencies {
     implementation 'org.apache.shardingsphere:sharding-jdbc-core:4.1.1'
     implementation 'mysql:mysql-connector-java:8.0.29'
     implementation 'com.alibaba:druid-spring-boot-starter:1.2.9'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2021.1'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2021.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer:3.1.2'
 
+}
+
+configurations.all {
+    exclude group: 'org.springframework.cloud', module: 'spring-boot-starter-netflix-ribbon'
 }
 
 test {

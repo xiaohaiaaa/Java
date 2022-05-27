@@ -55,6 +55,16 @@ spring:
     multipart:
       max-file-size: 128MB
       max-request-size: 128MB
+  cloud:
+    nacos:
+      discovery:
+        weight: 0
+        metadata:
+          version: v1.0
+          targetVersion: v1.0
+          isGray: 0
+          hostName: hostName1
+
 #Mapper文件扫描配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

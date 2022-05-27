@@ -11,17 +11,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface CityMapper extends BaseMapper<City> {
 
-    int deleteByPrimaryKey(Long id);
-
     int insert(City record);
 
-    int insertSelective(City record);
-
     City selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(City record);
-
-    int updateByPrimaryKey(City record);
 
     City selectForUpdate(@Param("id") Long id);
 

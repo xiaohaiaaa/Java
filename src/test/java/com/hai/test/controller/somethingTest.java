@@ -23,7 +23,7 @@ import com.hai.test.entity.bo.GoodsTag;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TestApplication.class})
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 public class somethingTest {
 
     @Autowired
@@ -46,6 +46,7 @@ public class somethingTest {
 
     @Test
     public void test3() {
-        System.out.println(nacosCommonConfig.getUserReview());
+        System.out.println(nacosCommonConfig.getUserReview1());
+        System.out.println(nacosCommonConfig.getUserReview2());
     }
 }

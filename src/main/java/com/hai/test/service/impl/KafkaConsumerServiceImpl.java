@@ -1,3 +1,4 @@
+/*
 package com.hai.test.service.impl;
 
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,3 +15,4 @@ public class KafkaConsumerServiceImpl {
         acknowledgment.acknowledge();
     }
 }
+*/
