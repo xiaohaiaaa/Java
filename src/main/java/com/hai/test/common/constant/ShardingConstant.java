@@ -7,7 +7,7 @@ package com.hai.test.common.constant;
  * @Date 2022/5/16 15:22
  * @Version 1.0
  **/
-public class ShardingConstant {
+public final class ShardingConstant {
 
     /**
      * 测试库总数

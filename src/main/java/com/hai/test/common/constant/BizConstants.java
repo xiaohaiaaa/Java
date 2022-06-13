@@ -7,7 +7,14 @@ package com.hai.test.common.constant;
  * @Date 2022/5/17 17:34
  * @Version 1.0
  **/
-public class BizConstants {
+public final class BizConstants {
 
     public static final String CHAR_COMMA = ",";
+
+    public static final String COMMON_JUDGE_YES = "1";
+
+    /**
+     * 网关测是否灰度
+     */
+    public static final String GATEWAY_GRAY = "gatewayGray";
 }
